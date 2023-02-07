@@ -160,8 +160,7 @@ def sort_messages(messages: list[dict, ...]) -> list[dict, ...]:
             continue
         if mess['sender_address'] == username and '_RENAME_FOLDER_' in mess['subject']:
             # переименование папки
-            old_name = mess['subject'].split('_RENAME_FOLDER_')[0]
-            new_name = mess['subject'].split('_RENAME_FOLDER_')[1]
+            new_name, old_name = mess['subject'].split('_RENAME_FOLDER_')
             for folder in folders:
                 if folder['folder_name'] == old_name:
                     folder['folder_name'] = new_name
