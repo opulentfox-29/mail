@@ -317,11 +317,14 @@ def login_duckduckmail():
     driver.get('https://mail.proton.me/u/0/all-mail/')
     driver.switch_to.window(driver.window_handles[1])
     driver.get(url)
-    # driver.close()
+    wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, 'button[class="NewButton '
+                                                            'AutofillSettingsPanel__GeneratorButton"]')))
+    driver.close()
     driver.switch_to.window(driver.window_handles[0])
 
 
 def get_new_email_address():
+    driver.execute_script("window.open('https://duckduckgo.com/email/settings/autofill');")
     driver.switch_to.window(driver.window_handles[1])
     wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, 'button[class="NewButton '
                                                             'AutofillSettingsPanel__GeneratorButton"]')))
@@ -332,7 +335,7 @@ def get_new_email_address():
                                                             'AutofillSettingsPanel__GeneratorButton"]')))
     new_email = driver.find_element(By.CSS_SELECTOR, 'div[class="AutofillSettingsPanel__'
                                                      'PrivateDuckAddress "]').text.split('\n')[0]
-
+    driver.close()
     driver.switch_to.window(driver.window_handles[0])
 
     return new_email
