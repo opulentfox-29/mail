@@ -1,4 +1,5 @@
-const socket = new WebSocket('ws://127.0.0.1:8000/ws');
+var xhr = new XMLHttpRequest();
+var api_url = "/api/";
 url = window.location.href.split('/').slice(-2, -1)[0]
 
 main = {}
@@ -14,25 +15,11 @@ if (url === 'login') {
     btn_login.onclick = login
 }
 
-socket.onmessage = function(event) {
-  try {
-    data = JSON.parse(event.data);
-
-    if (data['url'] === '*'){
-        if (data['status'] === 'block') {
-            var body = document.getElementsByTagName('body')[0];
-            body.style.pointerEvents = 'none';
-        }
-        if (data['status'] === 'unblock') {
-            var body = document.getElementsByTagName('body')[0];
-            body.style.pointerEvents = '';
-        }
-    }
-
+function _request (data) {
     if (data['url'] === 'login') {
         if (data['status'] === 'err'){
             var err = document.getElementById('err-text');
-            err.textContent = data['status'];
+            err.textContent = data['err'];
         }
         if (data['status'] === 'redirect') {
             window.location.replace("http://127.0.0.1:8000/folders/");
@@ -50,29 +37,58 @@ socket.onmessage = function(event) {
         }
     }
 
-  } catch (e) {
-    console.log('Error:', e.message);
-  }
-};
+}
+
+
+function _send (url, method, dict=null) {
+    var body = document.getElementsByTagName('body')[0];
+    body.style.pointerEvents = 'none';
+    xhr.open(method, url, false);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            json = JSON.parse(xhr.responseText);
+        }
+    };
+    var data = JSON.stringify(dict);
+    xhr.send(data);
+    body.style.pointerEvents = '';
+    _request(json)
+    return json;
+}
+
+function post (dict=null) {
+    return _send(api_url, "POST", dict)
+}
+
+function get (data=null) {
+    var url = api_url;
+    if (data) {
+        var url = api_url + "?data=" + encodeURIComponent(JSON.stringify(data));
+    }
+
+    return _send(api_url, "GET")
+}
 
 function login () {
     var login = document.getElementById('login').value;
     var password = document.getElementById('password').value;
     var duck_name = document.getElementById('duck_name').value;
 
-    socket.send(JSON.stringify({
+    post({
         url: 'login',
         login: login,
         password: password,
         duck_name: duck_name,
-    }));
+    });
+
 }
 
 function refresh() {
-    socket.send(JSON.stringify({
+    get({
         'url': 'folders',
         'status': 'refresh'
-    }));
+    });
 }
 
 function set_folders (folders=null) {
@@ -156,12 +172,11 @@ function read_message(message_num) {
     var scroll = document.getElementById('scroll');
     scroll.innerHTML = null;
 
-    socket.send(JSON.stringify({
+    post({
         'url': 'messages',
         'status': 'read_message',
         'id': message['id'],
-    }));
-
+    });
 }
 
 function create_folder() {
@@ -196,12 +211,12 @@ function create_folder_ok() {
     var folder_name = document.getElementById('folder_name').value;
     var description = document.getElementById('description').value;
 
-    socket.send(JSON.stringify({
+    post({
         'url': 'folders',
         'status': 'create folder',
         'folder_name': folder_name,
         'description': description,
-    }));
+    });
     modal.remove();
 }
 
@@ -238,13 +253,13 @@ function rename_folder_ok() {
     var description = document.getElementById('description').value;
     var folder = main['folder']
 
-    socket.send(JSON.stringify({
+    post({
         'url': 'folders',
         'status': 'rename folder',
         'folder': folder,
         'folder_name': folder_name,
         'description': description,
-    }));
+    });
     modal.remove();
 }
 
@@ -271,11 +286,11 @@ function delete_folder_ok() {
     var modal = document.getElementById('modal');
     var folder = main['folder']
 
-    socket.send(JSON.stringify({
+    post({
         'url': 'folders',
         'status': 'delete folder',
         'folder': folder,
-    }));
+    });
     modal.remove();
 }
 
@@ -317,14 +332,14 @@ function send_message_ok() {
     var message = document.getElementById('message').value;
     var folder = main['folder'];
 
-    socket.send(JSON.stringify({
+    post({
         'url': 'folders',
         'status': 'send message',
         'folder': folder,
         'address': address,
         'subject': subject,
         'message': message,
-    }));
+    });
     modal.remove();
 }
 
@@ -351,10 +366,10 @@ function delete_message_ok() {
     var modal = document.getElementById('modal');
     var message = main['message']
 
-    socket.send(JSON.stringify({
+    post({
         'url': 'read message',
         'status': 'delete message',
         'id': message['id'],
-    }));
+    });
     modal.remove();
 }

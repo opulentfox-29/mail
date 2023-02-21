@@ -18,8 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 
+from home.views import MailAPIView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', MailAPIView.as_view()),
     path('', include('home.urls'))
 ]
 
