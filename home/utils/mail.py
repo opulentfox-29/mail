@@ -237,6 +237,8 @@ def read_message(message_id: str, full=False) -> webdriver or dict[str, str]:
     iframe = driver.find_element(By.CSS_SELECTOR, 'iframe[data-testid="content-iframe"]')
     driver.switch_to.frame(iframe)
     wait.until(ec.invisibility_of_element_located((By.CSS_SELECTOR, 'span[class^="proton-image-placeholder"]')))
+    wait.until_not(ec.visibility_of_element_located((By.CSS_SELECTOR, 'span[class^="proton-sr-only"]')))
+
     html = driver.find_element(By.CSS_SELECTOR, 'html')
     if full:
         styles = html.find_elements(By.TAG_NAME, 'style')
@@ -266,8 +268,8 @@ def read_message(message_id: str, full=False) -> webdriver or dict[str, str]:
         driver.execute_script("window.open('');")
         driver.switch_to.window(driver.window_handles[1])
 
+        driver.get(img_urls[0])
         for img_url in img_urls:
-            driver.get(img_url)
 
             result = driver.execute_async_script("""
                 var uri = arguments[0];
@@ -280,7 +282,7 @@ def read_message(message_id: str, full=False) -> webdriver or dict[str, str]:
                 xhr.open('GET', uri);
                 xhr.send();
                 """, img_url)
-
+            img_url = img_url.replace('&', '&amp;')
             html = html.replace(img_url, "data:image/png;base64," + result)
 
         driver.close()
