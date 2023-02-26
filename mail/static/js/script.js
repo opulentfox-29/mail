@@ -10,6 +10,7 @@ if (url === 'folders') {
     <button class="btn btn-primary" type="button" id="btn_create_folder" onclick="create_folder()">create folder</button>
     <button class="btn btn-primary" type="button" id="btn_refresh" onclick="refresh()">refresh</button>
     `
+    refresh()
 }
 if (url === 'login') {
     btn_login.onclick = login
