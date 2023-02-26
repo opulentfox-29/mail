@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.views.generic.base import TemplateView
 from django.views.generic import DetailView
 from rest_framework.response import Response
@@ -10,13 +11,18 @@ from .utils import mail
 mail.start()
 
 
+def home(request):
+    if mail.username:
+        return redirect('folders')
+    return redirect('login')
+
+
 class Login(DetailView):
     model = Proton
     template_name = 'home/login.html'
 
     def get_object(self, queryset=None):
         data = Proton.objects.first()
-        print(data)
         if not data:
             serializer = ProtonSerializer(data={'login': '', 'password': '', 'duck_name': ''})
             serializer.is_valid(raise_exception=True)
