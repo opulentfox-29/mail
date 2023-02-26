@@ -255,11 +255,6 @@ def read_message(message_id: str, full=False) -> webdriver or dict[str, str]:
         imgs = html.find_elements(By.TAG_NAME, 'img')
         backs = html.find_elements(By.XPATH, '//*[@background]')
 
-        for img in imgs:
-            img.location_once_scrolled_into_view
-        for back in backs:
-            back.location_once_scrolled_into_view
-
         html = html.get_attribute('outerHTML').replace(style, '').replace(svg, '')
 
         img_urls = [img.get_attribute("src") for img in imgs]
@@ -268,7 +263,8 @@ def read_message(message_id: str, full=False) -> webdriver or dict[str, str]:
         driver.execute_script("window.open('');")
         driver.switch_to.window(driver.window_handles[1])
 
-        driver.get(img_urls[0])
+        if img_urls:
+            driver.get(img_urls[0])
         for img_url in img_urls:
 
             result = driver.execute_async_script("""
