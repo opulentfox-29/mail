@@ -23,7 +23,7 @@ function _request (data) {
             err.textContent = data['err'];
         }
         if (data['status'] === 'redirect') {
-            window.location.replace("http://127.0.0.1:8000/folders/");
+            window.location.href = "http://127.0.0.1:8000/folders/";
         }
     }
     if (data['url'] === 'folders') {
