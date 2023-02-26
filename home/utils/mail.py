@@ -71,8 +71,11 @@ def get_messages(page=1):
     body = decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
     messages_json = json.loads(body)
     messages = []
-    for message_json in messages_json['Messages']:
-        message_id = message_json.get('ID')
+    page_id = page
+    for i, message_json in enumerate(messages_json['Messages']):
+        if i == 50:
+            page_id += 1
+        message_id = message_json.get('ID') + f"#page={page_id}"
         conversation_id = message_json.get('ConversationID')
         subject = message_json.get('Subject')
         unread = message_json.get('Unread')
