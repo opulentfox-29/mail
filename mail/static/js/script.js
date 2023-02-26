@@ -131,6 +131,7 @@ function redirect_to_message(folder_num=null) {
     main['folder'] = folder;
     messages = folder['messages'];
     main['messages'] = messages
+    main['folder_last_message'] = messages.length - 1
 
     buttons = document.getElementById('buttons');
     buttons.innerHTML = `
@@ -140,6 +141,11 @@ function redirect_to_message(folder_num=null) {
         <button class="btn btn-primary" type="button" id="btn_send_message" onclick="send_message()">send message</button>
         <input class="form-control" type="text" value="TO: ${folder['sender']}" disabled readonly>
     `
+
+    if (folder['service_folder']) {
+        let btn_del = document.getElementById('btn_del_folder');
+        btn_del.className = 'btn btn-secondary disabled'
+    }
 
     var scroll = document.getElementById('scroll');
     scroll.innerHTML = null;
@@ -170,6 +176,12 @@ function read_message(message_num) {
         <button class="btn btn-primary" type="button" id="btn_delete_message" onclick="delete_message()">delete message</button>
         <input class="form-control" type="text" value="FROM: ${message['sender_address']}" disabled readonly>
     `
+
+    if (message_num === main['folder_last_message'] && !main['folder']['service_folder']) {
+        let btn_del = document.getElementById('btn_delete_message');
+        btn_del.className = 'btn btn-secondary disabled'
+    }
+
     var scroll = document.getElementById('scroll');
     scroll.innerHTML = null;
 
