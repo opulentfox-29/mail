@@ -181,30 +181,36 @@ function read_message(message_num) {
 }
 
 function create_folder() {
-    var body = document.getElementsByTagName('body')[0];
-    body.innerHTML = `
-        <div class="modal-content rounded-4 shadow" id="modal">
-          <div class="modal-header border-bottom-0">
-            <h1 class="modal-title fs-5">Create folder</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
-          </div>
-          <div class="modal-body py-0">
-            <div class="form-outline form-white mb-4">
-                <input id="folder_name" class="form-control form-control-lg"/>
-                <label class="form-label" for="folder_name">folder name</label>
+    var modal = document.getElementById('modal');
+    if (modal) {
+        modal.remove();
+    }
+    else {
+        var body = document.getElementsByTagName('body')[0];
+        body.innerHTML = `
+            <div class="modal-content rounded-4 shadow" id="modal">
+              <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">Create folder</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
+              </div>
+              <div class="modal-body py-0">
+                <div class="form-outline form-white mb-4">
+                    <input id="folder_name" class="form-control form-control-lg"/>
+                    <label class="form-label" for="folder_name">folder name</label>
+                </div>
+                <div class="form-outline form-white mb-4">
+                    <input id="description" class="form-control form-control-lg"/>
+                    <label class="form-label" for="description">description</label>
+                </div>
+              </div>
+              <div class="modal-footer flex-column border-top-0">
+                <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="create_folder_ok()">ok</button>
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
+                    data-bs-dismiss="modal">cancel</button>
+              </div>
             </div>
-            <div class="form-outline form-white mb-4">
-                <input id="description" class="form-control form-control-lg"/>
-                <label class="form-label" for="description">description</label>
-            </div>
-          </div>
-          <div class="modal-footer flex-column border-top-0">
-            <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="create_folder_ok()">ok</button>
-            <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
-                data-bs-dismiss="modal">cancel</button>
-          </div>
-        </div>
-    ` + body.innerHTML
+        ` + body.innerHTML
+    }
 }
 
 function create_folder_ok() {
@@ -222,30 +228,36 @@ function create_folder_ok() {
 }
 
 function rename_folder() {
-    var body = document.getElementsByTagName('body')[0];
-    body.innerHTML = `
-        <div class="modal-content rounded-4 shadow" id="modal">
-          <div class="modal-header border-bottom-0">
-            <h1 class="modal-title fs-5">Rename folder</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
-          </div>
-          <div class="modal-body py-0">
-            <div class="form-outline form-white mb-4">
-                <input id="folder_name" class="form-control form-control-lg"/>
-                <label class="form-label" for="folder_name">new name</label>
+    var modal = document.getElementById('modal');
+    if (modal) {
+        modal.remove();
+    }
+    else {
+        var body = document.getElementsByTagName('body')[0];
+        body.innerHTML = `
+            <div class="modal-content rounded-4 shadow" id="modal">
+              <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">Rename folder</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
+              </div>
+              <div class="modal-body py-0">
+                <div class="form-outline form-white mb-4">
+                    <input id="folder_name" class="form-control form-control-lg"/>
+                    <label class="form-label" for="folder_name">new name</label>
+                </div>
+                <div class="form-outline form-white mb-4">
+                    <input id="description" class="form-control form-control-lg"/>
+                    <label class="form-label" for="description">description</label>
+                </div>
+              </div>
+              <div class="modal-footer flex-column border-top-0">
+                <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="rename_folder_ok()">ok</button>
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
+                    data-bs-dismiss="modal">cancel</button>
+              </div>
             </div>
-            <div class="form-outline form-white mb-4">
-                <input id="description" class="form-control form-control-lg"/>
-                <label class="form-label" for="description">description</label>
-            </div>
-          </div>
-          <div class="modal-footer flex-column border-top-0">
-            <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="rename_folder_ok()">ok</button>
-            <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
-                data-bs-dismiss="modal">cancel</button>
-          </div>
-        </div>
-    ` + body.innerHTML
+        ` + body.innerHTML
+    }
 }
 
 function rename_folder_ok() {
@@ -265,22 +277,28 @@ function rename_folder_ok() {
 }
 
 function delete_folder() {
-    var body = document.getElementsByTagName('body')[0];
-    body.innerHTML = `
-        <div class="modal-content rounded-4 shadow" id="modal">
-          <div class="modal-header border-bottom-0">
-            <h1 class="modal-title fs-5">delete folder</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
-          </div>
-          <div class="modal-body py-0">
-          </div>
-          <div class="modal-footer flex-column border-top-0">
-            <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="delete_folder_ok()">ok</button>
-            <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
-                data-bs-dismiss="modal">cancel</button>
-          </div>
-        </div>
-    ` + body.innerHTML
+    var modal = document.getElementById('modal');
+    if (modal) {
+        modal.remove();
+    }
+    else {
+        var body = document.getElementsByTagName('body')[0];
+        body.innerHTML = `
+            <div class="modal-content rounded-4 shadow" id="modal">
+              <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">delete folder</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
+              </div>
+              <div class="modal-body py-0">
+              </div>
+              <div class="modal-footer flex-column border-top-0">
+                <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="delete_folder_ok()">ok</button>
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
+                    data-bs-dismiss="modal">cancel</button>
+              </div>
+            </div>
+        ` + body.innerHTML
+    }
 }
 
 function delete_folder_ok() {
@@ -296,34 +314,40 @@ function delete_folder_ok() {
 }
 
 function send_message() {
-    var body = document.getElementsByTagName('body')[0];
-    body.innerHTML = `
-        <div class="modal-content rounded-4 shadow" id="modal">
-          <div class="modal-header border-bottom-0">
-            <h1 class="modal-title fs-5">Send message</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
-          </div>
-          <div class="modal-body py-0">
-            <div class="form-outline form-white mb-4">
-                <input id="address" class="form-control form-control-lg"/>
-                <label class="form-label" for="address">address</label>
+    var modal = document.getElementById('modal');
+    if (modal) {
+        modal.remove();
+    }
+    else {
+        var body = document.getElementsByTagName('body')[0];
+        body.innerHTML = `
+            <div class="modal-content rounded-4 shadow" id="modal">
+              <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">Send message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
+              </div>
+              <div class="modal-body py-0">
+                <div class="form-outline form-white mb-4">
+                    <input id="address" class="form-control form-control-lg"/>
+                    <label class="form-label" for="address">address</label>
+                </div>
+                <div class="form-outline form-white mb-4">
+                    <input id="subject" class="form-control form-control-lg"/>
+                    <label class="form-label" for="subject">subject</label>
+                </div>
+                <div class="form-outline form-white mb-4">
+                    <input id="message" class="form-control form-control-lg"/>
+                    <label class="form-label" for="message">message</label>
+                </div>
+              </div>
+              <div class="modal-footer flex-column border-top-0">
+                <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="send_message_ok()">ok</button>
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
+                    data-bs-dismiss="modal">cancel</button>
+              </div>
             </div>
-            <div class="form-outline form-white mb-4">
-                <input id="subject" class="form-control form-control-lg"/>
-                <label class="form-label" for="subject">subject</label>
-            </div>
-            <div class="form-outline form-white mb-4">
-                <input id="message" class="form-control form-control-lg"/>
-                <label class="form-label" for="message">message</label>
-            </div>
-          </div>
-          <div class="modal-footer flex-column border-top-0">
-            <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="send_message_ok()">ok</button>
-            <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
-                data-bs-dismiss="modal">cancel</button>
-          </div>
-        </div>
-    ` + body.innerHTML
+        ` + body.innerHTML
+    }
 }
 
 function send_message_ok() {
@@ -345,22 +369,28 @@ function send_message_ok() {
 }
 
 function delete_message() {
-    var body = document.getElementsByTagName('body')[0];
-    body.innerHTML = `
-        <div class="modal-content rounded-4 shadow" id="modal">
-          <div class="modal-header border-bottom-0">
-            <h1 class="modal-title fs-5">delete message</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
-          </div>
-          <div class="modal-body py-0">
-          </div>
-          <div class="modal-footer flex-column border-top-0">
-            <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="delete_message_ok()">ok</button>
-            <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
-                data-bs-dismiss="modal">cancel</button>
-          </div>
-        </div>
-    ` + body.innerHTML
+    var modal = document.getElementById('modal');
+    if (modal) {
+        modal.remove();
+    }
+    else {
+        var body = document.getElementsByTagName('body')[0];
+        body.innerHTML = `
+            <div class="modal-content rounded-4 shadow" id="modal">
+              <div class="modal-header border-bottom-0">
+                <h1 class="modal-title fs-5">delete message</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('modal').remove();"></button>
+              </div>
+              <div class="modal-body py-0">
+              </div>
+              <div class="modal-footer flex-column border-top-0">
+                <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2" onclick="delete_message_ok()">ok</button>
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0" onclick="document.getElementById('modal').remove();"
+                    data-bs-dismiss="modal">cancel</button>
+              </div>
+            </div>
+        ` + body.innerHTML
+    }
 }
 
 function delete_message_ok() {
