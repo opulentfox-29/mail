@@ -302,7 +302,7 @@ def login_duckduckmail():
     driver.switch_to.window(driver.window_handles[0])
     while True:
         try:
-            request = driver.wait_for_request('https://mail.proton.me/api/v4/events/.{1,100}=='
+            request = driver.wait_for_request('https://mail.proton.me/api/core/v4/events/.{1,100}=='
                                               '\?ConversationCounts=1&MessageCounts=1', 60)
             body = decode(request.response.body, request.response.headers.get('Content-Encoding', 'identity'))
             update = json.loads(body)
