@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from home.models import Proton
+from .models import Proton
 
 
 class ProtonSerializer(serializers.ModelSerializer):
