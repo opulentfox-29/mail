@@ -4,6 +4,7 @@ __pycache__/
 venv/
 TODO.txt
 db.sqlite3
-home/__pycache__/
-home/utils/__pycache__/
+config/__pycache__/
 mail/__pycache__/
+mail/utils/__pycache__/
+mail/utils/profile/
